@@ -51,10 +51,12 @@ public class User {
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
-	@JoinTable(name= "client_Produit")
+
+	@JoinTable(name= "user_Entreprise")
 	@OneToMany(cascade = CascadeType.ALL)
-	private Set<Produit> produits = new HashSet<Produit>();
-	
+	private Set<Entreprise> entreprise = new HashSet<Entreprise>();
+
+
 	@JsonIgnore
 	@NotBlank
 	private String idActivation;
@@ -80,13 +82,14 @@ public class User {
 		this.email=email;
 		this.dateOfBirth = dateOfBirth;
 	}
- 	public Set<Produit> getProduits() {
-		return this.produits;
+
+	public Set<Entreprise> getEntreprise() {
+		return this.entreprise;
 	}
 
-	public void setProduits(Set<Produit> produit) {
-		this.produits = produit;
-	} 
+	public void setEntreprise( Entreprise entreprise) {
+		this.entreprise.add(entreprise);
+	}
 
 	public Boolean isConfirmer() {
 		return this.confirmer;

@@ -12,6 +12,8 @@ import com.example.Api.services.ProduitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +27,8 @@ public class ProduitController {
     @Autowired
     private ProduitService produitService;
 
-    @PostMapping("/enregistrerProduit")
-    public ResponseEntity<?> enregistrerProduity(@Valid @RequestBody Set<ProduitRequest> produits){
+    @PostMapping("/enregistrerProduit/{idEntreprise}")
+    public ResponseEntity<?> enregistrerProduity(@Valid @RequestBody Set<ProduitRequest> produits,@PathVariable(value = "idEntreprise")Long idEntreprise){
 
         Set<Produit> setDeProduits = new HashSet<Produit>();
         for(ProduitRequest element : produits){
@@ -36,7 +38,13 @@ public class ProduitController {
             produit.setStock(element.getStock());
             setDeProduits.add(produit);
         }
-        return produitService.enregistrerProduit(setDeProduits);
+        return produitService.enregistrerProduit(setDeProduits,idEntreprise);
 
+    }
+
+    @GetMapping("/AllProduits/{idEntreprise}")
+    public ResponseEntity<?> getAllProduits(@PathVariable(value = "idEntreprise")Long idEntreprise){
+
+        return produitService.getAll(idEntreprise);
     }
 }

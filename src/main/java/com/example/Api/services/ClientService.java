@@ -4,9 +4,11 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+import com.example.Api.models.Client;
 import com.example.Api.models.Entreprise;
 import com.example.Api.models.Produit;
 import com.example.Api.models.User;
+import com.example.Api.payload.request.ClientRequest;
 import com.example.Api.payload.request.ProduitRequest;
 import com.example.Api.payload.response.MessageResponse;
 import com.example.Api.repository.EntrepriseRepository;
@@ -22,21 +24,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProduitService {
-
+public class ClientService {
     @Autowired
     UserRepository userRepository;
 
     @Autowired
-    ProduitRepository produitRepository;
-
-    @Autowired
     EntrepriseRepository entrepriseRepository;
+    
+    public ResponseEntity<?> enregistrerClient(Set<Client> clients, Long idEntreprise) {
 
-
-    public ResponseEntity<?> enregistrerProduit(Set<Produit> produits, Long idEntreprise) {
-
-        if(produits.size() == 0){
+        if(clients.size() == 0){
             return ResponseEntity.badRequest().body(new MessageResponse(""));
         }
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -52,7 +49,7 @@ public class ProduitService {
         //ON RECUPERER L'UTILISATEUR  EN BDD
         User userr = userRepository.findById(userImpl.getId()).get();
 
-        Entreprise entreprisee =new Entreprise();
+        Entreprise entreprisee = new Entreprise();
         
         for (Entreprise entreprise : userr.getEntreprise()) {
           if(entreprise.getId() == idEntreprise){
@@ -61,26 +58,25 @@ public class ProduitService {
         }
 
 
-        Set<Produit> listProduit= new HashSet<>();
+        Set<Client> listClient= new HashSet<>();
         // POUR CHAQUE PRODUIT ENTRANT ON PARCOURT LA LISTE DE PRODUIT DE L'UTILISATEUR POUR VOIR SI IL EXISTE DEJA
-        for (Produit produit : produits) {
-            for (Produit produit2 : entreprisee.getProduits()) {
+        for (Client client : clients) {
+            for (Client client2 : entreprisee.getClients()) {
                 // SI IL EXISTE DEJA ON RETOURN UNE BAD REQUEST
-                if (produit.getDesignation().equals(produit2.getDesignation())) {
-                    return ResponseEntity.badRequest().body(new MessageResponse("Un des produits ajoute existe déja"));
+                if (client.getNom().equals(client2.getNom())) {
+                    return ResponseEntity.badRequest().body(new MessageResponse("Un des clients ajoute existe déja"));
                 }
             }
             // ON AJOUTE LE PRODUIT A UNE LISTE DE PRODUITS
-            listProduit.add(produit);
+            listClient.add(client);
         }
         //ON AJOUTE LA LISTE ON ENREGISTRE LES NOUVEAU PRODUITS A LA LISTE DE PRODUIT DE L'ENTREPRISE ET PUIS LE L'UTILISATEUR
-        entreprisee.setProduits(listProduit);
+        entreprisee.setClients(listClient);
         entrepriseRepository.save(entreprisee);
 
-        return new ResponseEntity<>(new MessageResponse("Félicitation votre produit a ete enregistrer !"),
+        return new ResponseEntity<>(new MessageResponse("Félicitation votre Client a bien ete enregistrer !"),
                 HttpStatus.ACCEPTED);
     }
-
     public ResponseEntity<?> getAll(Long idEntreprise){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -95,23 +91,24 @@ public class ProduitService {
         //ON RECUPERER L'UTILISATEUR  EN BDD
         User userr = userRepository.findById(userImpl.getId()).get();
 
-        Entreprise entreprisee =new Entreprise();
+        Entreprise entreprisee = new Entreprise();
 
         for (Entreprise entreprise : userr.getEntreprise()) {
             if(entreprise.getId() == idEntreprise){
                  entreprisee = entreprise;
             }
           }
-        Set<ProduitRequest> listProduits = new HashSet<>() ;
+        Set<ClientRequest> listClients = new HashSet<>() ;
 
-        for(Produit produit :entreprisee.getProduits()){
-            ProduitRequest produitRequest =new ProduitRequest();
-            produitRequest.setDesignation(produit.getDesignation());
-            produitRequest.setPrix(produit.getPrix());
-            produitRequest.setStock(produit.getStock());
-            listProduits.add(produitRequest);
+        for(Client client :entreprisee.getClients()){
+            ClientRequest clientRequest  =new ClientRequest();
+            clientRequest.setNom(client.getNom());
+            clientRequest.setEmail(client.getEmail());
+            clientRequest.setNumero(client.getNumero());
+            clientRequest.setAdresse(client.getAdresse());
+            listClients.add(clientRequest);
         }
-        return ResponseEntity.ok(listProduits);
+        return ResponseEntity.ok(listClients);
 
     }
 }
