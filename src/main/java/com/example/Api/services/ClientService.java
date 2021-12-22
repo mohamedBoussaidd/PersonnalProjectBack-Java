@@ -102,6 +102,7 @@ public class ClientService {
 
         for(Client client :entreprisee.getClients()){
             ClientRequest clientRequest  =new ClientRequest();
+            clientRequest.setId(client.getId());
             clientRequest.setNom(client.getNom());
             clientRequest.setEmail(client.getEmail());
             clientRequest.setNumero(client.getNumero());

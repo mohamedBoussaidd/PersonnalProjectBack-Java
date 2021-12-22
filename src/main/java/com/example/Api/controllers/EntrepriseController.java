@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,9 +47,9 @@ public class EntrepriseController {
         return entrepriseService.getAll();
     }
 
-    @GetMapping("/entrepriseById")
-    public ResponseEntity<?> getEntreprise(Long idEntreprise){
+    @GetMapping("/entrepriseById/{entrepriseId}")
+    public ResponseEntity<?> getEntreprise(@PathVariable(value = "entrepriseId")Long entrepriseId){
 
-        return entrepriseService.getEntreprise(idEntreprise);
+        return entrepriseService.getEntreprise(entrepriseId);
     }
 }

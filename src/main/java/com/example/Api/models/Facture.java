@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -37,6 +38,9 @@ public class Facture {
     @OneToMany(mappedBy ="facture", cascade = CascadeType.ALL)
     List<QuantiteProduit> quantiteProduit= new ArrayList<QuantiteProduit>();
 
+    @ManyToOne
+    @JoinColumn(name="client_id")
+    private Client client;
 
     @NotNull
     private double prixTotalHT;
@@ -47,11 +51,20 @@ public class Facture {
     public Facture() {
     }
 
-    public Facture(Long id, Integer numeroFacture, double prixTotalHT, double prixTotalTTC) {
+    public Facture(Long id, Integer numeroFacture, double prixTotalHT, double prixTotalTTC, Client client) {
         this.id = id;
         this.numeroFacture = numeroFacture;
         this.prixTotalHT = prixTotalHT;
         this.prixTotalTTC = prixTotalTTC;
+        this.client = client;
+    }
+
+    public Client getClient() {
+        return this.client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public Long getId() {

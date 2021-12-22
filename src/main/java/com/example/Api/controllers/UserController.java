@@ -1,10 +1,15 @@
 package com.example.Api.controllers;
+import java.io.IOException;
 import java.util.List;
 
-
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,26 +24,14 @@ import com.example.Api.repository.UserRepository;
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends HttpServlet{
 	@Autowired
 	UserRepository userRepo;
 
 	
 
-	// FONCTION POUR METTRE A JOUR LES INFORMATION D'UN UTILISATEUR
-	@GetMapping("/update")
-	public User updateUtilisateur(Long id, String nom, String prenom, String pass) {
-		User utilisateur = userRepo.findById(id).get();
-		if (nom != null) {
-			utilisateur.setName(nom);
-		}
-		if (prenom != null) {
-			utilisateur.setFirstname(prenom);
-		}
-		if (pass != null) {
-			utilisateur.setPassword(pass);
-		}
-		return userRepo.save(utilisateur);
-	}
+	
+
+	  
 
 }

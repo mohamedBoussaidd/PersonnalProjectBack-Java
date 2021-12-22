@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
@@ -35,8 +36,19 @@ public class Client {
     private String numero;
 
     private String adresse;
+    
+    @JoinTable(name= "client_facture")
+	@OneToMany(cascade = CascadeType.ALL)
+	private Set<Facture> facture = new HashSet<Facture>();
 
     public Client() {
+    }
+
+    public Client( String nom, String email, String adresse) {
+       
+        this.nom = nom;
+        this.email = email;
+        this.adresse = adresse;
     }
 
     public Long getId() {

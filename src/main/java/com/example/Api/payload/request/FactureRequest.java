@@ -16,10 +16,20 @@ public class FactureRequest {
     @NotNull 
     private  List<Produit> produit;
 
+    private String nomClient;
+
+    public String getNomClient() {
+        return this.nomClient;
+    }
+
+    public void setNomClient(String nomClient) {
+        this.nomClient = nomClient;
+    }
 
     public Integer getNumeroFacture() {
         return this.numeroFacture;
     }
+   
 
     public void setNumeroFacture(Integer numeroFcature) {
         this.numeroFacture = numeroFcature;

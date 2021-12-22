@@ -22,6 +22,7 @@ public class QuantiteProduitService {
         System.out.println(listquantiteProduit);
         for (QuantiteProduit quantiteProduit2 : listquantiteProduit) {
             quantiteProduitRepository.save(quantiteProduit2);
+            System.out.println(quantiteProduit2.getQuantite());
         }
 
         return new ResponseEntity<>(new MessageResponse("La quantite de produit a bien ete enregistrer"),

@@ -85,6 +85,7 @@ public class EntrepriseService {
         }
         return ResponseEntity.ok(listEntreprise);
     }
+    
     public ResponseEntity<?> getEntreprise(Long idEntreprise){
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

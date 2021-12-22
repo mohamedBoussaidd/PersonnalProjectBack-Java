@@ -7,6 +7,8 @@ import javax.validation.constraints.Size;
 
 public class ClientRequest {
 
+    private Long id;
+
     @NotBlank
     private String nom;
 
@@ -20,6 +22,15 @@ public class ClientRequest {
 
     @NotBlank
     private String adresse;
+
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getNom() {
         return this.nom;
