@@ -2,16 +2,12 @@ package com.example.Api.models;
 
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfTable;
 import com.lowagie.text.pdf.PdfWriter;
 
 import org.springframework.stereotype.Component;
 
 import com.lowagie.text.Font;
 import com.lowagie.text.*;
-import lombok.Data;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;

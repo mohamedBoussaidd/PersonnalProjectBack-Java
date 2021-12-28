@@ -6,11 +6,8 @@ import java.util.Set;
 import javax.validation.Valid;
 
 import com.example.Api.models.Client;
-import com.example.Api.models.Produit;
 import com.example.Api.payload.request.ClientRequest;
-import com.example.Api.payload.request.ProduitRequest;
 import com.example.Api.services.ClientService;
-import com.example.Api.services.ProduitService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

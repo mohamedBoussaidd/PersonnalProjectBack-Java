@@ -43,6 +43,21 @@ public class Entreprise {
 	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Client> clients = new HashSet<Client>();
 
+    @JoinTable(name= "entreprise_Facture")
+	@OneToMany(cascade = CascadeType.ALL)
+	private Set<Facture> factures = new HashSet<Facture>();
+
+    public Set<Facture> getFactures() {
+        return this.factures;
+    }
+
+    public void setFactures(Set<Facture> facture) {
+        for(Facture facture1 : facture){
+            this.factures.add(facture1);
+        }
+        
+    }
+
     public Set<Client> getClients() {
         return this.clients;
     }

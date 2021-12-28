@@ -44,7 +44,6 @@ public class ProduitController {
 
     @GetMapping("/AllProduits/{idEntreprise}")
     public ResponseEntity<?> getAllProduits(@PathVariable(value = "idEntreprise")Long idEntreprise){
-
         return produitService.getAll(idEntreprise);
     }
 }

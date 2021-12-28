@@ -8,7 +8,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -62,14 +61,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/update").permitAll()
 			.antMatchers("/api/test/**").permitAll()
 			.antMatchers("/pdf/**").permitAll()
-			.antMatchers("/TemplatePdf/**").permitAll()
+			// .antMatchers("/TemplatePdf/**").permitAll()
 			
 			.anyRequest().authenticated();
 
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
-	@Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/TemplatePdf").anyRequest();
-    }
+	// @Override
+    // public void configure(WebSecurity web) throws Exception {
+    //     web.ignoring().antMatchers("/TemplatePdf").anyRequest();
+    // }
 }

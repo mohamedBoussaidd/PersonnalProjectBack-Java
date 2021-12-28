@@ -86,7 +86,7 @@ public class EntrepriseService {
         return ResponseEntity.ok(listEntreprise);
     }
     
-    public ResponseEntity<?> getEntreprise(Long idEntreprise){
+    public ResponseEntity<?> getEntreprise(Long entrepriseId){
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -102,10 +102,15 @@ public class EntrepriseService {
         User userr = userRepository.findById(userImpl.getId()).get();
 
         Entreprise entreprisee =new Entreprise();
-        
+
+        System.out.println(userr.getEntreprise());
         for (Entreprise entreprise : userr.getEntreprise()) {
-          if(entreprise.getId() == idEntreprise){
-               entreprisee = entreprise;
+          if(entreprise.getId() == entrepriseId){
+               entreprisee.setName(entreprise.getName());
+               entreprisee.setAdress(entreprise.getAdress());
+               entreprisee.setNumber(entreprise.getNumber());
+               entreprisee.setDescription(entreprise.getDescription());
+               entreprisee.setEmail(entreprise.getEmail());
           }
         }
         return ResponseEntity.ok(entreprisee);

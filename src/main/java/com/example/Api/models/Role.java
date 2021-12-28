@@ -19,7 +19,6 @@ public class Role {
 	
 	
 	public Role() {
-		// TODO Auto-generated constructor stub
 	}
 	public Role(ERole name) {
 		this.name = name;

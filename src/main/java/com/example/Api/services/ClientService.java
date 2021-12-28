@@ -6,13 +6,10 @@ import java.util.Set;
 
 import com.example.Api.models.Client;
 import com.example.Api.models.Entreprise;
-import com.example.Api.models.Produit;
 import com.example.Api.models.User;
 import com.example.Api.payload.request.ClientRequest;
-import com.example.Api.payload.request.ProduitRequest;
 import com.example.Api.payload.response.MessageResponse;
 import com.example.Api.repository.EntrepriseRepository;
-import com.example.Api.repository.ProduitRepository;
 import com.example.Api.repository.UserRepository;
 import com.example.Api.security.services.UserDetailsImpl;
 
@@ -77,6 +74,7 @@ public class ClientService {
         return new ResponseEntity<>(new MessageResponse("Félicitation votre Client a bien ete enregistrer !"),
                 HttpStatus.ACCEPTED);
     }
+    
     public ResponseEntity<?> getAll(Long idEntreprise){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 

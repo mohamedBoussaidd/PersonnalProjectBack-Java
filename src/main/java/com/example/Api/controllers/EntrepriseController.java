@@ -40,16 +40,15 @@ public class EntrepriseController {
 
         return entrepriseService.addEntreprise(entreprise);
     }
-
+    /* RECUPERER TOUTE LES ENTREPRISE */
     @GetMapping("/allEntreprise")
     public ResponseEntity<?> getAllProduits(){
 
         return entrepriseService.getAll();
     }
-
+    /* RECUPERER UNE ENTREPRISE PAR IDENTREPRISE */
     @GetMapping("/entrepriseById/{entrepriseId}")
     public ResponseEntity<?> getEntreprise(@PathVariable(value = "entrepriseId")Long entrepriseId){
-
         return entrepriseService.getEntreprise(entrepriseId);
     }
 }

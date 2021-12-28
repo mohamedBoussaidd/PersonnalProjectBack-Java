@@ -1,9 +1,7 @@
 package com.example.Api.models;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -65,7 +63,6 @@ public class User {
 	private Boolean confirmer = false;	
 	
 	public User() {
-		// TODO Auto-generated constructor stub
 	}
 	public User(String name,String firstname,String email,String idActivation,String password) {
 		this.name = name;

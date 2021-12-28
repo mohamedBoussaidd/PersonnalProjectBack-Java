@@ -43,7 +43,6 @@ import javax.validation.Valid;
 public class AuthController {
 
 	public AuthController() {
-		// TODO Auto-generated constructor stub
 	}
 
 	// LES INJECTION DE DIFFERENT REPO
