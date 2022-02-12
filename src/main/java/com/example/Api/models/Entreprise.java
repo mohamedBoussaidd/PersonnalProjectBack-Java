@@ -16,46 +16,69 @@ import javax.validation.constraints.Size;
 
 @Entity
 public class Entreprise {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @NotBlank
     private String name;
 
     private String adress;
 
+    private String complementAdresse;
+
     private String number;
 
+    private String numeroSiret;
+
+   
     @NotBlank(message = "Le email de l'entreprise est obligatoire")
-	@Size(max = 50)
-	@Email	
+    @Size(max = 50)
+    @Email
     private String email;
 
     private String description;
 
-    @JoinTable(name= "entreprise_Produit")
-	@OneToMany(cascade = CascadeType.ALL)
-	private Set<Produit> produits = new HashSet<Produit>();
+    @JoinTable(name = "entreprise_Produit")
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Produit> produits = new HashSet<Produit>();
 
-    @JoinTable(name= "entreprise_Client")
-	@OneToMany(cascade = CascadeType.ALL)
-	private Set<Client> clients = new HashSet<Client>();
+    @JoinTable(name = "entreprise_Client")
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Client> clients = new HashSet<Client>();
 
-    @JoinTable(name= "entreprise_Facture")
-	@OneToMany(cascade = CascadeType.ALL)
-	private Set<Facture> factures = new HashSet<Facture>();
+    @JoinTable(name = "entreprise_Facture")
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Facture> factures = new HashSet<Facture>();
+
+
+    public String getNumeroSiret() {
+        return this.numeroSiret;
+    }
+
+    public void setNumeroSiret(String numeroSiret) {
+        this.numeroSiret = numeroSiret;
+    }
+
+    
+    public String getComplementAdresse() {
+        return this.complementAdresse;
+    }
+
+    public void setComplementAdresse(String complementAdresse) {
+        this.complementAdresse = complementAdresse;
+    }
 
     public Set<Facture> getFactures() {
         return this.factures;
     }
 
     public void setFactures(Set<Facture> facture) {
-        for(Facture facture1 : facture){
+        for (Facture facture1 : facture) {
             this.factures.add(facture1);
         }
-        
+
     }
 
     public Set<Client> getClients() {
@@ -63,20 +86,22 @@ public class Entreprise {
     }
 
     public void setClients(Set<Client> client) {
-        for (Client client1 : client){
-			this.clients.add(client1);
-		};
+        for (Client client1 : client) {
+            this.clients.add(client1);
+        }
+        ;
     }
 
     public Set<Produit> getProduits() {
-		return this.produits;
-	}
+        return this.produits;
+    }
 
-	public void setProduits(Set<Produit> produit) {
-		 for (Produit produit1:produit){
-			this.produits.add(produit1);
-		};
-	} 
+    public void setProduits(Set<Produit> produit) {
+        for (Produit produit1 : produit) {
+            this.produits.add(produit1);
+        }
+        ;
+    }
 
     public String getDescription() {
         return this.description;
@@ -85,11 +110,9 @@ public class Entreprise {
     public void setDescription(String description) {
         this.description = description;
     }
-  
 
     public Entreprise() {
     }
-
 
     public Long getId() {
         return this.id;

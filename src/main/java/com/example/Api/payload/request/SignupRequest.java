@@ -14,7 +14,7 @@ public class SignupRequest {
     private String mail;
     
     @NotBlank
-    @Size(min = 8, max = 80)
+    @Size(min = 8, max = 100)
     private String pass;
     
     @NotBlank

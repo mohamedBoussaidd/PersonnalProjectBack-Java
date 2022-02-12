@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,6 +60,9 @@ public class AuthController {
 	private PasswordEncoder encoder;
 
 	@Autowired
+	private BCryptPasswordEncoder encoderr;
+
+	@Autowired
 	private JwtUtils jwtUtils;
 
 	@Autowired
@@ -82,10 +86,10 @@ public class AuthController {
 		// METHODE DE CONNEXION
 		User user = userRepository.findById(userDetails.getId()).get();
 		if (user.getConfirmer() == false) {
-			return new ResponseEntity<>(
-					new MessageResponse(
-							"Votre compte n'est pas confirmer !! Consulter votre adresse email pour l'activer"),
-					HttpStatus.BAD_REQUEST);
+			return ResponseEntity.badRequest()
+					.body(
+							new MessageResponse(
+									"Votre compte n'est pas confirmer !! Consulter votre adresse email pour l'activer"));
 		}
 		UserDto finalUser = new UserDto(user.getId(), user.getName(), user.getFirstname(), user.getEmail(),
 				user.getDateOfBirth());
@@ -98,13 +102,14 @@ public class AuthController {
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 
 		if (userRepository.existsByEmail(signUpRequest.getMail())) {
-			return new ResponseEntity<>(new MessageResponse("L'email indiquer est déja utilisé"), HttpStatus.CONFLICT);
+			return ResponseEntity.badRequest()
+					.body(new MessageResponse("L'email indiquer est déja utilisé"));
 		}
 		String idActivation = UUID.randomUUID().toString();
 		// ON CREE UN USER AVEC LES DONNER RECUPERER DU FRONT ET ON ENCODE LE MOT DE
 		// PASSE
 		User user = new User(signUpRequest.getNom(), signUpRequest.getPrenom(), signUpRequest.getMail(),
-				encoder.encode(signUpRequest.getPass()), idActivation);
+		encoder.encode(signUpRequest.getPass()), idActivation);
 		// ON CREE UN SET DE ROLE
 		Set<Role> roles = new HashSet<>();
 		// ON RECUPERE LE ROLE_USER DE LA BDD

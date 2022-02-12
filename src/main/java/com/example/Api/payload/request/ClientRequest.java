@@ -22,6 +22,17 @@ public class ClientRequest {
     @NotBlank
     private String adresse;
 
+    @NotBlank
+    private String complementAdresse;
+
+    public String getComplementAdresse() {
+        return this.complementAdresse;
+    }
+
+    public void setComplementAdresse(String complementAdresse) {
+        this.complementAdresse = complementAdresse;
+    }
+
 
     public Long getId() {
         return this.id;

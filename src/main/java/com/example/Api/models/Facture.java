@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -24,12 +25,6 @@ public class Facture {
     @NotNull
     private Integer numeroFacture;
 
-    
-   // @ManyToMany(fetch = FetchType.LAZY)
-	//@JoinTable(	name = "facture_produit", 
-	//			joinColumns = @JoinColumn(name = "facture_id"), 
-	//			inverseJoinColumns = @JoinColumn(name = "produit_id"))
-    //private List<Produit> produit = new ArrayList<>();
     @OneToMany(mappedBy ="facture", cascade = CascadeType.ALL)
     List<QuantiteProduit> quantiteProduit= new ArrayList<QuantiteProduit>();
 
@@ -43,7 +38,18 @@ public class Facture {
     @NotNull
     private double prixTotalTTC;
 
+    @NotBlank
+    private String nCommande;
+
     private Date dateCreation= new Date();
+
+    public String getNCommande() {
+        return this.nCommande;
+    }
+
+    public void setNCommande(String nCommande) {
+        this.nCommande = nCommande;
+    }
 
     public Date getDateCreation() {
         return this.dateCreation;
@@ -56,12 +62,13 @@ public class Facture {
     public Facture() {
     }
 
-    public Facture(Long id, Integer numeroFacture, double prixTotalHT, double prixTotalTTC, Client client) {
+    public Facture(Long id, Integer numeroFacture, String nCommande, double prixTotalHT, double prixTotalTTC, Client client) {
         this.id = id;
         this.numeroFacture = numeroFacture;
         this.prixTotalHT = prixTotalHT;
         this.prixTotalTTC = prixTotalTTC;
         this.client = client;
+        this.nCommande = nCommande;
     }
 
     public Client getClient() {

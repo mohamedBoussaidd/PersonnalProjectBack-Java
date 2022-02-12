@@ -10,6 +10,7 @@ import com.example.Api.services.EntrepriseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,8 +26,6 @@ public class EntrepriseController {
     @Autowired
     EntrepriseService entrepriseService;
 
-    @Autowired
-    EntrepriseRepository entrepriseRepository;
     
     @PostMapping("addEntreprise")
     public ResponseEntity<?> addEntreprise(@Valid @RequestBody EntrepriseRequest entrepriseRequest){
@@ -34,7 +33,9 @@ public class EntrepriseController {
         Entreprise entreprise = new Entreprise();
         entreprise.setName(entrepriseRequest.getName());
         entreprise.setAdress(entrepriseRequest.getAdress());
+        entreprise.setComplementAdresse(entrepriseRequest.getComplementAdresse());
         entreprise.setNumber(entrepriseRequest.getNumber());
+        entreprise.setNumeroSiret(entrepriseRequest.getNumeroSiret());
         entreprise.setEmail(entrepriseRequest.getEmail());
         entreprise.setDescription(entrepriseRequest.getDescription());
 
@@ -42,7 +43,7 @@ public class EntrepriseController {
     }
     /* RECUPERER TOUTE LES ENTREPRISE */
     @GetMapping("/allEntreprise")
-    public ResponseEntity<?> getAllProduits(){
+    public ResponseEntity<?> getAllEntreprise(){
 
         return entrepriseService.getAll();
     }
@@ -51,4 +52,14 @@ public class EntrepriseController {
     public ResponseEntity<?> getEntreprise(@PathVariable(value = "entrepriseId")Long entrepriseId){
         return entrepriseService.getEntreprise(entrepriseId);
     }
+     // Fonction pour effecer un produit
+     @DeleteMapping("/supprimerEntreprise/{idEntreprise}")
+     public ResponseEntity<?> supprimerProduit(
+             @PathVariable(value = "idEntreprise") Long idEntreprise) {
+             
+         
+         // je transmet au service le produit a modifier
+         return entrepriseService.supprimerEntreprise(idEntreprise);
+ 
+     }
 }

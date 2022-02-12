@@ -32,10 +32,30 @@ public class Client {
     private String numero;
 
     private String adresse;
+
+    private String complementAdresse;
     
     @JoinTable(name= "client_facture")
 	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Facture> facture = new HashSet<Facture>();
+
+    public String getComplementAdresse() {
+        return this.complementAdresse;
+    }
+
+    public void setComplementAdresse(String complementAdresse) {
+        this.complementAdresse = complementAdresse;
+    }
+
+    public Set<Facture> getFacture() {
+        return this.facture;
+    }
+
+    public void setFacture(Set<Facture> facture) {
+        this.facture = facture;
+    }
+    
+
 
     public Client() {
     }

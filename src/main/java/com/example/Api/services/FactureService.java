@@ -35,7 +35,10 @@ public class FactureService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    EntrepriseRepository entrepriseRepository;
+    private EntrepriseRepository entrepriseRepository;
+    @Autowired
+    private PdfService pdfService;
+    
 
     // ENREGISTRER UNE FACTURE
     public ResponseEntity<?> enregistrerFacture(Facture facture, List<Produit> listProduits,Long idEntreprise) {
@@ -54,12 +57,12 @@ public class FactureService {
         User userr = userRepository.findById(userImpl.getId()).get();
 
         /* on cree une entreprise */
-        Entreprise entreprisee =new Entreprise();
+        Entreprise entreprise =new Entreprise();
         
         /* pour chaque entreprise de l'utilisateur authentifier on verifie sir l'idi de l'ntreprise correspond a l'id d'entreprise que l'on a en paramettre si il correspond on recupere l'entreprise dans la varibale d'entreprise que l'on a creé au dessus */
-        for (Entreprise entreprise : userr.getEntreprise()) {
-          if(entreprise.getId() == idEntreprise){
-               entreprisee = entreprise;
+        for (Entreprise entreprisee : userr.getEntreprise()) {
+          if(entreprisee.getId() == idEntreprise){
+               entreprise = entreprisee;
           }
         }
 
@@ -71,7 +74,7 @@ public class FactureService {
 
         double prixHT = 0;
         double prixTTC = 0;
-        /* on parcours la liste de produit que l'on a en parametre et pour chaque produit on cree un nouveau produit et un nouveauobjet de QuantiteProduit */
+        /* on parcours la liste de produit que l'on a en parametre et pour chaque produit on cree un nouveau produit et un nouvelle objet de QuantiteProduit */
         for (Produit element : listProduits) {
             Produit produit = new Produit();
             QuantiteProduit quantiteProduit = new QuantiteProduit();
@@ -86,18 +89,19 @@ public class FactureService {
             // PRODUIT D'UNE FACTURE
             produit = produitRepository.findByDesignation(element.getDesignation());
 
-
+            if (produit.getStock() == 0 || produit.getStock() < element.getQuantite()) {
+            return ResponseEntity.badRequest().body(new MessageResponse("LE STOCK DE "+ produit.getDesignation() +" EST INSUFFISANT "));
+            }
             /* on calcule le prix HT et TTC */
             prixHT = prixHT + (produit.getPrix() * element.getQuantite());
             prixTTC =  prixHT * 1.2 ;
-            System.out.println(prixHT);
-            System.out.println(prixTTC);
-
+          
+            produit.setStock( produit.getStock() - element.getQuantite());
+            produitRepository.save(produit);
             /* on ajoute la facture le produit et la quantite de chaque element a l'object de QuantiteProduit pour pouvoir associer les Id dans la table */
             quantiteProduit.setFacture(facture);
             quantiteProduit.setProduit(produit);
             quantiteProduit.setQuantite(element.getQuantite());
-            System.out.println(produit.getQuantite() + " dans le service facture");
 
             /* on ajoute le produit a la liste de QuantiteProduit */
             listquantiteProduit.add(quantiteProduit);
@@ -111,19 +115,19 @@ public class FactureService {
         facture.setQuantiteProduit(listquantiteProduit);
         facture.setPrixTotalHT(prixHT);
         facture.setPrixTotalTTC(prixTTC);
-
         /* on enregistre la facture en Bdd */
         factureRepository.save(facture);
-
-        /* on modifie la liste d efacture de l'entreprise en cour */
-        entreprisee.setFactures(listFacture);
+        /* on modifie la liste de facture de l'entreprise en cour */
+        entreprise.setFactures(listFacture);
 
         /* on enregistre l'entreprise en Bdd */
-        entrepriseRepository.save(entreprisee);
+        entrepriseRepository.save(entreprise);
         
 
         /* on fait appeler au service de QuantiteProduit pour enregistrer la quantite  */
         quantiteProduitService.enregistrerQuantite(listquantiteProduit);
+
+        pdfService.creePdf(facture, entreprise);
 
         return new ResponseEntity<>(new MessageResponse("Félicitation Votre facture a ete enregistrer !"),
                 HttpStatus.ACCEPTED);
@@ -153,15 +157,14 @@ public class FactureService {
         Set<Facture> listFactures = new HashSet<>() ;
 
         for(Facture facture : entreprisee.getFactures()){
-            System.out.println(entreprisee.getFactures().size());
-            System.out.println("a l entree de la boucle");
-            System.out.println(facture.getId());
+           
             Facture facturee = new Facture();
             facturee.setId(facture.getId());
             facturee.setNumeroFacture(facture.getNumeroFacture());
             facturee.setPrixTotalHT(facture.getPrixTotalHT());;
             facturee.setPrixTotalTTC(facture.getPrixTotalTTC());
             facturee.setClient(facture.getClient());
+            facturee.setDateCreation(facture.getDateCreation());
             listFactures.add(facturee);
         }
         return ResponseEntity.ok(listFactures);

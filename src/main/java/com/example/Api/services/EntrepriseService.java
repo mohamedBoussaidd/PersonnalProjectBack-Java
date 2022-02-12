@@ -42,7 +42,6 @@ public class EntrepriseService {
         // ON RECUPERER L'UTILISATEUR EN BDD
         User userr = userRepository.findById(userImpl.getId()).get();
 
-
         for (Entreprise entreprise1 : userr.getEntreprise()) {
             // SI ELLE EXISTE DEJA ON RETOURNE UNE BAD REQUEST
             if (entreprise.getName().equals(entreprise1.getName())) {
@@ -78,15 +77,18 @@ public class EntrepriseService {
             EntrepriseRequest entrepriseRequest = new EntrepriseRequest();
             entrepriseRequest.setName(entreprise.getName());
             entrepriseRequest.setAdress(entreprise.getAdress());
+            entrepriseRequest.setComplementAdresse(entreprise.getComplementAdresse());
             entrepriseRequest.setEmail(entreprise.getEmail());
+            entrepriseRequest.setNumber(entreprise.getNumber());
+            entrepriseRequest.setNumeroSiret(entreprise.getNumeroSiret());
             entrepriseRequest.setDescription(entreprise.getDescription());
             entrepriseRequest.setId(entreprise.getId());
             listEntreprise.add(entrepriseRequest);
         }
         return ResponseEntity.ok(listEntreprise);
     }
-    
-    public ResponseEntity<?> getEntreprise(Long entrepriseId){
+
+    public ResponseEntity<?> getEntreprise(Long entrepriseId) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -101,18 +103,31 @@ public class EntrepriseService {
         // ON RECUPERER L'UTILISATEUR EN BDD
         User userr = userRepository.findById(userImpl.getId()).get();
 
-        Entreprise entreprisee =new Entreprise();
+        Entreprise entreprisee = new Entreprise();
 
         System.out.println(userr.getEntreprise());
         for (Entreprise entreprise : userr.getEntreprise()) {
-          if(entreprise.getId() == entrepriseId){
-               entreprisee.setName(entreprise.getName());
-               entreprisee.setAdress(entreprise.getAdress());
-               entreprisee.setNumber(entreprise.getNumber());
-               entreprisee.setDescription(entreprise.getDescription());
-               entreprisee.setEmail(entreprise.getEmail());
-          }
+            if (entreprise.getId() == entrepriseId) {
+                entreprisee.setName(entreprise.getName());
+                entreprisee.setAdress(entreprise.getAdress());
+                entreprisee.setComplementAdresse(entreprise.getComplementAdresse());
+                entreprisee.setNumber(entreprise.getNumber());
+                entreprisee.setNumeroSiret(entreprise.getNumeroSiret());
+                entreprisee.setDescription(entreprise.getDescription());
+                entreprisee.setEmail(entreprise.getEmail());
+            }
         }
         return ResponseEntity.ok(entreprisee);
+    }
+
+    // Methode pour supprimer une entreprise
+    public ResponseEntity<?> supprimerEntreprise(Long idEntreprise) {
+
+        entrepriseRepository.deleteById(idEntreprise);
+        // je renvoie au front un message pour dire que l'entreprise a bien été
+        // supprimer
+        return new ResponseEntity<>(new MessageResponse("L'entreprise a bien été supprimer !"),
+                HttpStatus.ACCEPTED);
+
     }
 }

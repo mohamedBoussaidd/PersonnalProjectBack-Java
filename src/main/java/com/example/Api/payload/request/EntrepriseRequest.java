@@ -14,7 +14,11 @@ public class EntrepriseRequest {
 
     private String adress;
 
+    private String complementAdresse;
+
     private String number;
+
+    private String numeroSiret;
 
     @NotBlank(message = "Le email del'entrprise est obligatoire")
 	@Size(max = 50)
@@ -22,8 +26,21 @@ public class EntrepriseRequest {
     private String email;
 
     private String description;
+    public String getNumeroSiret() {
+        return this.numeroSiret;
+    }
 
+    public void setNumeroSiret(String numeroSiret) {
+        this.numeroSiret = numeroSiret;
+    }
 
+    public String getComplementAdresse() {
+        return this.complementAdresse;
+    }
+
+    public void setComplementAdresse(String complementAdresse) {
+        this.complementAdresse = complementAdresse;
+    }
     public String getDescription() {
         return this.description;
     }

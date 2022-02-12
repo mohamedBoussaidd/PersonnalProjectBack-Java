@@ -60,6 +60,11 @@
         	<groupId>org.springframework.boot</groupId>
         	<artifactId>spring-boot-starter-tomcat</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 		  <dependencies>
       	<dependency>
 			<groupId>com.itextpdf</groupId>
@@ -69,12 +74,12 @@
 			<scope>import</scope>
      	 </dependency>
 		  <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter  POUR JUNIT-->
-<dependency>
-    <groupId>org.junit.jupiter</groupId>
-    <artifactId>junit-jupiter</artifactId>
-    <version>5.8.1</version>
-    <scope>test</scope>
-</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>5.8.1</version>
+			<scope>test</scope>
+		</dependency>
 
    </dependencies>
 		 <dependency> 
@@ -86,13 +91,22 @@
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>kernel</artifactId>
-			<version>7.2.0</version>
+			<version>7.2.1</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>${jstl.version}</version>
     	</dependency>
+		<!-- itexte.layout -->
+	<dependency>
+    <groupId>com.itextpdf</groupId>
+    <artifactId>layout</artifactId>
+    <version>7.2.1</version>
+</dependency>
+
+<!-- Thanks for using https://jar-download.com -->
+
 		<!-- OpenPdf -->
 		<dependency>
 			<groupId>com.github.librepdf</groupId>
